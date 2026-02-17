@@ -49,6 +49,31 @@ export function TopBar() {
                     EXPORT
                 </Button>
 
+                <Button
+                    variant="outline"
+                    size="sm"
+                    className="h-7 px-3 text-[10px] font-bold border-white/10 hover:bg-white/5"
+                    onClick={async () => {
+                        const project = useStore.getState().project;
+                        const setFeedback = useStore.getState().setFeedback;
+                        if (!project) return;
+                        setFeedback('Uploading to cloud...');
+                        try {
+                            const res = await fetch('/api/projects', {
+                                method: 'POST',
+                                body: JSON.stringify(project),
+                                headers: { 'Content-Type': 'application/json' }
+                            });
+                            if (res.ok) setFeedback('Saved to cloud successfully!');
+                            else throw new Error('Failed to save');
+                        } catch (e) {
+                            setFeedback('Failed to save specifically to cloud.');
+                        }
+                    }}
+                >
+                    SAVE CLOUD
+                </Button>
+
                 <div className="h-4 w-px bg-white/10" />
 
                 <button className="text-slate-400 hover:text-white transition-colors">

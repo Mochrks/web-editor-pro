@@ -40,6 +40,15 @@ export interface Clip {
   previewUrl?: string; // For images/video frames
   properties: ClipProperties;
   effects: Effect[];
+  text?: string;
+  textStyle?: {
+    fontSize: number;
+    color: string;
+    fontFamily: string;
+    fontWeight: string;
+    textAlign: 'left' | 'center' | 'right';
+    background?: string;
+  };
 }
 
 export interface ClipProperties {

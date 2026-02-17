@@ -1,8 +1,8 @@
 'use client';
 
 import { Player } from '@/components/player/Player';
-import { Button } from '@/components/ui/button';
-import { Play, Pause, SkipBack, SkipForward, Settings, Maximize, ZoomIn, Grid3X3, PlayCircle } from 'lucide-react';
+import { InstaToolbar } from '@/components/editor/InstaToolbar';
+import { Pause, SkipBack, SkipForward, ZoomIn, Grid3X3, PlayCircle } from 'lucide-react';
 import { useStore } from '@/store/useStore';
 import { cn } from '@/lib/utils';
 
@@ -12,6 +12,8 @@ export function ProgramMonitor() {
     const setTime = useStore(s => s.setTime);
     const project = useStore(s => s.project);
     const currentTime = useStore(s => s.currentTime);
+    const showGrid = useStore(s => s.showGrid);
+    const setShowGrid = useStore(s => s.setShowGrid);
 
     const formatTimecode = (ms: number) => {
         const totalSeconds = Math.floor(ms / 1000);
@@ -47,6 +49,8 @@ export function ProgramMonitor() {
                     <Player />
                 </div>
 
+                <InstaToolbar />
+
                 {/* Cyberpunk overlays */}
                 <div className="absolute top-4 left-4 border-l border-t border-primary/30 w-8 h-8 pointer-events-none" />
                 <div className="absolute top-4 right-4 border-r border-t border-primary/30 w-8 h-8 pointer-events-none" />
@@ -65,8 +69,22 @@ export function ProgramMonitor() {
                 </div>
 
                 <div className="absolute top-1/2 right-4 -translate-y-1/2 flex flex-col gap-2 transition-all translate-x-10 group-hover:translate-x-0 duration-300">
-                    <button className="w-8 h-8 bg-black/60 border border-white/5 rounded-lg flex items-center justify-center hover:bg-primary/20 hover:border-primary/50 transition-all text-white hover:text-primary"><ZoomIn className="w-4 h-4" /></button>
-                    <button className="w-8 h-8 bg-black/60 border border-white/5 rounded-lg flex items-center justify-center hover:bg-primary/20 hover:border-primary/50 transition-all text-white hover:text-primary"><Grid3X3 className="w-4 h-4" /></button>
+                    <button
+                        className={cn("w-8 h-8 rounded-lg flex items-center justify-center transition-all",
+                            useStore.getState().programZoom > 1 ? "bg-primary text-black" : "bg-black/60 border border-white/5 text-white hover:bg-primary/20 hover:text-primary"
+                        )}
+                        onClick={() => useStore.getState().setProgramZoom(useStore.getState().programZoom > 1 ? 0.9 : 1.5)}
+                    >
+                        <ZoomIn className="w-4 h-4" />
+                    </button>
+                    <button
+                        className={cn("w-8 h-8 rounded-lg flex items-center justify-center transition-all",
+                            showGrid ? "bg-primary text-black" : "bg-black/60 border border-white/5 text-white hover:bg-primary/20 hover:text-primary"
+                        )}
+                        onClick={() => setShowGrid(!showGrid)}
+                    >
+                        <Grid3X3 className="w-4 h-4" />
+                    </button>
                 </div>
             </div>
 

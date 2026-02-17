@@ -25,9 +25,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark h-full w-full overflow-hidden">
+    <html lang="en" className="dark h-full w-full overflow-hidden" suppressHydrationWarning>
       <body
         className={`${inter.variable} ${jetbrainsMono.variable} antialiased bg-background text-foreground h-full w-full overflow-hidden font-sans`}
+        suppressHydrationWarning
       >
         <AppProviders>
           {children}

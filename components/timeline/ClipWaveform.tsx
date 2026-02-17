@@ -23,10 +23,18 @@ export function ClipWaveform({ src, duration, zoom }: { src: string; duration: n
             hideScrollbar: true,
         });
 
-        ws.load(src);
+        ws.load(src).catch(e => {
+            if (e.name !== 'AbortError') console.error('WaveSurfer load error:', e);
+        });
         wavesurferRef.current = ws;
 
-        return () => ws.destroy();
+        return () => {
+            try {
+                ws.destroy();
+            } catch (e) {
+                // Ignore destruction errors
+            }
+        };
     }, [src]);
 
     return (

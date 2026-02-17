@@ -14,13 +14,14 @@ interface StoreState {
   isPlaying: boolean;
   currentTime: number; // in ms
   duration: number; // in ms
-  zoom: number; // Zoom level for timeline
+  aspectRatio: '16:9' | '9:16' | '1:1';
+  zoom: number;
   layoutMode: LayoutMode;
   activeMainTab: string;
   feedbackMsg: string | null;
-  
-  // Assets
   assets: Asset[];
+  showGrid: boolean;
+  programZoom: number;
 
   // Actions
   setProject: (project: ProjectData) => void;
@@ -43,6 +44,9 @@ interface StoreState {
   setLayoutMode: (mode: LayoutMode) => void;
   setActiveMainTab: (tab: string) => void;
   setFeedback: (msg: string | null) => void;
+  setAspectRatio: (ratio: '16:9' | '9:16' | '1:1') => void;
+  setShowGrid: (show: boolean) => void;
+  setProgramZoom: (zoom: number) => void;
   
   // Advanced Actions
   splitClip: (atTime?: number) => void;
@@ -55,18 +59,21 @@ interface StoreState {
 
 export const useStore = create<StoreState>()(
   persist(
-    (set, get) => ({
+    (set) => ({
       project: null,
       selectedClipId: null,
       selectedTrackId: null,
       isPlaying: false,
       currentTime: 0,
       duration: 0,
+      aspectRatio: '16:9',
       zoom: 50,
       layoutMode: 'standard',
       activeMainTab: 'Editing',
       feedbackMsg: null,
       assets: [],
+      showGrid: false,
+      programZoom: 0.9,
 
       setProject: (project) => set({ project, duration: project.duration }),
       
@@ -141,6 +148,9 @@ export const useStore = create<StoreState>()(
           set({ feedbackMsg });
           if (feedbackMsg) setTimeout(() => set({ feedbackMsg: null }), 3000);
       },
+      setAspectRatio: (ratio) => set({ aspectRatio: ratio }),
+      setShowGrid: (show) => set({ showGrid: show }),
+      setProgramZoom: (programZoom) => set({ programZoom }),
 
       splitClip: (atTime) => set((state) => {
         if (!state.project) return state;
@@ -299,8 +309,11 @@ export const useStore = create<StoreState>()(
        project: state.project, 
        assets: state.assets,
        zoom: state.zoom,
+       aspectRatio: state.aspectRatio,
        currentTime: state.currentTime,
-       layoutMode: state.layoutMode
+       layoutMode: state.layoutMode,
+       showGrid: state.showGrid,
+       programZoom: state.programZoom
     }), 
   }
  )
