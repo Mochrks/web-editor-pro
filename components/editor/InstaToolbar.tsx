@@ -1,5 +1,6 @@
 'use client';
 
+import { MediaType, EffectType, Clip } from '@/types/store';
 import { useStore } from '@/store/useStore';
 import { Button } from '@/components/ui/button';
 import { Type, Music, Smile, Filter, Layout, Save } from 'lucide-react';
@@ -13,11 +14,11 @@ export function InstaToolbar() {
         const videoTrack = project.tracks.find(t => t.type === 'video');
         if (!videoTrack) return;
 
-        const newClip = {
+        const newClip: Clip = {
             id: crypto.randomUUID(),
             assetId: 'text-asset',
             name: 'New Text',
-            type: 'text' as any,
+            type: 'text' as MediaType,
             start: currentTime,
             duration: 3000,
             offset: 0,
@@ -28,7 +29,7 @@ export function InstaToolbar() {
                 color: '#ffffff',
                 fontFamily: 'Inter',
                 fontWeight: '900',
-                textAlign: 'center' as any,
+                textAlign: 'center',
                 background: 'rgba(0,0,0,0.5)'
             },
             properties: {
@@ -75,7 +76,7 @@ export function InstaToolbar() {
         });
 
         if (targetTrackId) {
-            const effect = { id: crypto.randomUUID(), type: 'grayscale' as any, value: 1, name: 'Grayscale' };
+            const effect = { id: crypto.randomUUID(), type: 'grayscale' as EffectType, value: 1, name: 'Grayscale' };
             useStore.getState().addEffectToClip(targetTrackId, selectedId, effect);
             setFeedback('Grayscale filter added');
         }

@@ -4,7 +4,6 @@ import { useStore } from '@/store/useStore';
 import { Slider } from '@/components/ui/slider';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Button } from '@/components/ui/button';
 import { Trash, ChevronDown, RefreshCcw, Zap } from 'lucide-react';
 
 export function PropertiesPanel() {

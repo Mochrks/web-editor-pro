@@ -4,7 +4,6 @@ import { useDrag } from 'react-dnd';
 import { Clip } from '@/types/store';
 import { useStore } from '@/store/useStore';
 import { ItemTypes } from '@/types/dnd';
-import { useEffect, useRef } from 'react';
 import { ClipWaveform } from './ClipWaveform';
 import { cn } from '@/lib/utils';
 
@@ -23,18 +22,11 @@ export function ClipItem({ clip, trackId, zoom }: { clip: Clip; trackId: string;
     const left = (clip.start / 1000) * zoom;
     const width = (clip.duration / 1000) * zoom;
 
-    const ref = useRef<HTMLDivElement>(null);
-
-    const [{ isDragging }, drag] = useDrag(() => ({
+    const [, drag] = useDrag(() => ({
         type: ItemTypes.CLIP,
         canDrag: !isLocked,
         item: { id: clip.id, trackId, type: ItemTypes.CLIP, start: clip.start, duration: clip.duration },
-        collect: (monitor) => ({
-            isDragging: !!monitor.isDragging(),
-        }),
     }), [clip.id, trackId, clip.start, clip.duration, isLocked]);
-
-    drag(ref);
 
     const handleTrimStart = (e: React.MouseEvent) => {
         e.stopPropagation();
@@ -93,7 +85,9 @@ export function ClipItem({ clip, trackId, zoom }: { clip: Clip; trackId: string;
 
     return (
         <div
-            ref={ref}
+            ref={(node) => {
+                drag(node);
+            }}
             data-clip={clip.id}
             className={cn(
                 "absolute top-1 bottom-1 rounded-md border-l-4 overflow-hidden cursor-move select-none transition-all group shadow-lg",
@@ -122,10 +116,12 @@ export function ClipItem({ clip, trackId, zoom }: { clip: Clip; trackId: string;
             }}
         >
             {/* Visual content placeholder/waveform */}
-            {asset?.src && (clip.type === 'audio' || clip.type === 'video') && (
-                <ClipWaveform src={asset.src} duration={clip.duration} zoom={zoom} />
+            {/* Waveform for audio clips */}
+            {asset && asset.type === 'audio' && (
+                <ClipWaveform src={asset.src} />
             )}
 
+            {/* Label and Info */}
             <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent pointer-events-none" />
 
             <div className="relative px-2 py-1.5 flex flex-col justify-between h-full pointer-events-none">

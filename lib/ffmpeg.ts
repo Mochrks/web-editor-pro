@@ -67,5 +67,5 @@ export async function renderProject(project: ProjectData, assets: Asset[], onPro
     await ff.exec(command);
 
     const data = await ff.readFile('output.mp4');
-    return new Blob([data as any], { type: 'video/mp4' });
+    return new Blob([data as unknown as BlobPart], { type: 'video/mp4' });
 }

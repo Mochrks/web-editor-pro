@@ -4,7 +4,7 @@
 import { useEffect, useRef } from 'react';
 import WaveSurfer from 'wavesurfer.js';
 
-export function ClipWaveform({ src, duration, zoom }: { src: string; duration: number; zoom: number }) {
+export function ClipWaveform({ src }: { src: string }) {
     const containerRef = useRef<HTMLDivElement>(null);
     const wavesurferRef = useRef<WaveSurfer | null>(null);
 
@@ -23,15 +23,15 @@ export function ClipWaveform({ src, duration, zoom }: { src: string; duration: n
             hideScrollbar: true,
         });
 
-        ws.load(src).catch(e => {
-            if (e.name !== 'AbortError') console.error('WaveSurfer load error:', e);
+        ws.load(src).catch(err => {
+            if (err && (err as Error).name !== 'AbortError') console.error('WaveSurfer load error:', err);
         });
         wavesurferRef.current = ws;
 
         return () => {
             try {
                 ws.destroy();
-            } catch (e) {
+            } catch {
                 // Ignore destruction errors
             }
         };

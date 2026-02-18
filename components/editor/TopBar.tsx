@@ -66,7 +66,7 @@ export function TopBar() {
                             });
                             if (res.ok) setFeedback('Saved to cloud successfully!');
                             else throw new Error('Failed to save');
-                        } catch (e) {
+                        } catch {
                             setFeedback('Failed to save specifically to cloud.');
                         }
                     }}

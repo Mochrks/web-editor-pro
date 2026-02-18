@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server';
 import { promises as fs } from 'fs';
 import path from 'path';
 
+import { ProjectData } from '@/types/store';
+
 const DB_PATH = path.join(process.cwd(), 'data', 'projects.json');
 
 async function ensureDb() {
@@ -28,9 +30,9 @@ export async function POST(req: Request) {
     await ensureDb();
     const project = await req.json();
     const data = await fs.readFile(DB_PATH, 'utf-8');
-    const projects = JSON.parse(data);
+    const projects: ProjectData[] = JSON.parse(data);
     
-    const index = projects.findIndex((p: any) => p.id === project.id);
+    const index = projects.findIndex((p: ProjectData) => p.id === project.id);
     if (index > -1) {
         projects[index] = { ...projects[index], ...project, lastModified: Date.now() };
     } else {

@@ -1,6 +1,5 @@
 import { Track } from '@/types/store';
-import { Eye, EyeOff, Lock, Unlock, Volume2, VolumeX } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { Eye, EyeOff, Lock, Unlock, VolumeX } from 'lucide-react';
 import { useStore } from '@/store/useStore';
 import { cn } from '@/lib/utils';
 
@@ -8,7 +7,7 @@ export function TrackHeader({ track }: { track: Track }) {
     const updateProject = useStore(s => s.updateProject);
     const project = useStore(s => s.project);
 
-    const toggleTrackAttr = (attr: keyof Track, val: any) => {
+    const toggleTrackAttr = <K extends keyof Track>(attr: K, val: Track[K]) => {
         if (!project) return;
         const newTracks = project.tracks.map(t => t.id === track.id ? { ...t, [attr]: val } : t);
         updateProject({ tracks: newTracks });

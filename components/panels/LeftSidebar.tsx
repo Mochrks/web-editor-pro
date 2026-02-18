@@ -3,7 +3,7 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { ProjectPanel } from "./ProjectPanel"
 import { EffectsPanel } from "./EffectsPanel"
-import { Search, FolderPlus, Import, Upload } from 'lucide-react';
+import { Search, FolderPlus, Upload } from 'lucide-react';
 import { useRef } from 'react';
 import { useFileImport } from '@/hooks/useFileImport';
 import { useStore } from '@/store/useStore';

@@ -5,7 +5,7 @@ import { Ruler } from './Ruler';
 import { TrackHeader } from './TrackHeader';
 import { TrackLane } from './TrackLane';
 import { Button } from '@/components/ui/button';
-import { ZoomIn, ZoomOut, Pause, Play, ChevronRight, SkipBack, SkipForward, Scissors, Eye, Lock, Volume2, Move, Magnet, Link, Layers } from 'lucide-react';
+import { ZoomIn, ZoomOut, Pause, Play, ChevronRight, SkipBack, SkipForward, Scissors, Eye, Lock, Move, Magnet, Link, Layers } from 'lucide-react';
 import { useRef, useEffect, useState } from 'react';
 import { cn } from '@/lib/utils';
 
@@ -44,6 +44,18 @@ export function Timeline() {
     const tracksContainerRef = useRef<HTMLDivElement>(null);
 
     const [snapping, setSnapping] = useState(true);
+    const [containerWidth, setContainerWidth] = useState(0);
+
+    useEffect(() => {
+        if (!containerRef.current) return;
+        const observer = new ResizeObserver((entries) => {
+            for (const entry of entries) {
+                setContainerWidth(entry.contentRect.width);
+            }
+        });
+        observer.observe(containerRef.current);
+        return () => observer.disconnect();
+    }, []);
 
     const getSnappingPoints = () => {
         if (!project) return [];
@@ -103,7 +115,8 @@ export function Timeline() {
             }
             if (e.key === 'End') {
                 e.preventDefault();
-                if (project) setTime(project.duration);
+                const proj = useStore.getState().project;
+                if (proj) setTime(proj.duration);
             }
 
             // J, K, L (Standard Editor Keys)
@@ -130,7 +143,8 @@ export function Timeline() {
             if (e.key === 'ArrowRight') {
                 e.preventDefault();
                 const step = e.shiftKey ? 1000 : 33.33;
-                setTime(Math.min(project?.duration || 0, useStore.getState().currentTime + step));
+                const duration = useStore.getState().project?.duration || 0;
+                setTime(Math.min(duration, useStore.getState().currentTime + step));
             }
 
             // Zoom with + -
@@ -148,7 +162,7 @@ export function Timeline() {
 
         window.addEventListener('keydown', handleKeyDown);
         return () => window.removeEventListener('keydown', handleKeyDown);
-    }, [project?.duration, setIsPlaying, setTime, splitClip]);
+    }, [setIsPlaying, setTime, splitClip]);
 
     useEffect(() => {
         const el = scrollContainerRef.current;
@@ -242,7 +256,7 @@ export function Timeline() {
                 </div>
 
                 <div className="absolute inset-0 left-9 flex overflow-auto scrollbar-custom" ref={scrollContainerRef}>
-                    <div className="flex min-h-full" style={{ width: Math.max(containerRef.current?.clientWidth || 0, timelineWidth + 240) }}>
+                    <div className="flex min-h-full" style={{ width: Math.max(containerWidth, timelineWidth + 240) }}>
 
                         {/* Track Headers */}
                         <div className="sticky left-0 z-40 w-[160px] bg-panel/95 backdrop-blur-md border-r border-white/5 flex flex-col shrink-0 min-h-full">

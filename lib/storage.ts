@@ -1,5 +1,5 @@
-
 import { openDB, DBSchema, IDBPDatabase } from 'idb';
+import { ProjectData } from '@/types/store';
 
 interface VideoEditorDB extends DBSchema {
   assets: {
@@ -8,7 +8,7 @@ interface VideoEditorDB extends DBSchema {
   };
   projects: {
     key: string;
-    value: any;
+    value: ProjectData;
   };
 }
 
@@ -40,7 +40,7 @@ export const getAsset = async (id: string): Promise<Blob | undefined> => {
   return db.get('assets', id);
 };
 
-export const saveProject = async (project: any) => {
+export const saveProject = async (project: ProjectData) => {
   const db = await dbPromise;
   await db.put('projects', project, project.id);
 };

@@ -1,6 +1,6 @@
 'use client';
 
-import { Activity, History, Wifi, Cpu } from 'lucide-react';
+import { History, Cpu } from 'lucide-react';
 import { useStore } from '@/store/useStore';
 
 export function StatusBar() {

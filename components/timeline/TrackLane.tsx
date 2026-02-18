@@ -1,11 +1,17 @@
 'use client';
 
 import { useStore } from '@/store/useStore';
-import { useDrop } from 'react-dnd';
-import { ItemTypes, DraggableAsset } from '@/types/dnd';
-import { Track } from '@/types/store';
-import { useRef } from 'react';
+import { useDrop, DropTargetMonitor } from 'react-dnd';
+import { ItemTypes } from '@/types/dnd';
+import { Track, Clip, MediaType } from '@/types/store';
 import { ClipItem } from './ClipItem';
+
+interface DragItem {
+    id: string;
+    type: MediaType;
+    duration: number;
+    trackId?: string;
+}
 
 export function TrackLane({ track, zoom }: { track: Track; zoom: number }) {
     const addClip = useStore((s) => s.addClip);
@@ -14,20 +20,19 @@ export function TrackLane({ track, zoom }: { track: Track; zoom: number }) {
     const project = useStore((s) => s.project);
     const assets = useStore((s) => s.assets);
 
-    const ref = useRef<HTMLDivElement>(null);
-
     const [{ isOver }, drop] = useDrop(() => ({
         accept: [ItemTypes.ASSET, ItemTypes.CLIP],
-        drop: (item: any, monitor) => {
+        drop: (item: DragItem, monitor: DropTargetMonitor) => {
             if (monitor.didDrop()) return;
 
             const offset = monitor.getClientOffset();
-            const laneRect = ref.current?.getBoundingClientRect();
+            const laneElement = document.querySelector(`[data-track-id="${track.id}"]`);
+            const laneRect = laneElement?.getBoundingClientRect();
 
             if (!offset || !laneRect) return;
 
             // Important: Account for scroll of the timeline container
-            const scrollContainer = ref.current?.parentElement?.parentElement; // scrollContainerRef in Timeline
+            const scrollContainer = laneElement?.parentElement?.parentElement; // scrollContainerRef in Timeline
             const scrollLeft = scrollContainer?.scrollLeft || 0;
 
             const relativeX = (offset.x - laneRect.left) + scrollLeft;
@@ -35,7 +40,7 @@ export function TrackLane({ track, zoom }: { track: Track; zoom: number }) {
 
             if (monitor.getItemType() === ItemTypes.ASSET) {
                 const asset = assets.find(a => a.id === item.id);
-                const newClip = {
+                const newClip: Clip = {
                     id: crypto.randomUUID(),
                     assetId: item.id,
                     name: asset?.name || 'Clip',
@@ -47,18 +52,16 @@ export function TrackLane({ track, zoom }: { track: Track; zoom: number }) {
                     properties: { opacity: 1, scale: 1, position: { x: 0, y: 0 }, rotation: 0, speed: 1 },
                     effects: []
                 };
-                // @ts-ignore
                 addClip(track.id, newClip);
             } else if (monitor.getItemType() === ItemTypes.CLIP) {
                 const { id: clipId, trackId: oldTrackId } = item;
                 if (oldTrackId === track.id) {
                     updateClip(track.id, clipId, { start: startTime });
-                } else {
-                    const oldTrack = project?.tracks.find(t => t.id === oldTrackId);
-                    const clip = oldTrack?.clips.find(c => c.id === clipId);
+                } else if (oldTrackId) {
+                    const oldTrack = project?.tracks.find((t: Track) => t.id === oldTrackId);
+                    const clip = oldTrack?.clips.find((c: Clip) => c.id === clipId);
                     if (clip) {
                         removeClip(oldTrackId, clipId);
-                        // @ts-ignore
                         addClip(track.id, { ...clip, start: startTime });
                     }
                 }
@@ -69,11 +72,12 @@ export function TrackLane({ track, zoom }: { track: Track; zoom: number }) {
         }),
     }), [track.id, zoom, project, assets]);
 
-    drop(ref);
-
     return (
         <div
-            ref={ref}
+            ref={(node) => {
+                drop(node);
+            }}
+            data-track-id={track.id}
             className={`h-20 border-b border-white/5 relative min-w-full overflow-visible ${isOver ? 'bg-primary/5' : 'bg-transparent'} transition-colors`}
             style={{ width: `${(Math.max(project?.duration || 0, 60000) / 1000) * zoom + 500}px` }}
         >

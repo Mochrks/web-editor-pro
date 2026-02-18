@@ -8,7 +8,6 @@ export function useProjectInit() {
   const setProject = useStore(s => s.setProject);
   const project = useStore(s => s.project);
   const assets = useStore(s => s.assets);
-  const addAsset = useStore(s => s.addAsset);
   const initialized = useRef(false);
 
   useEffect(() => {
@@ -29,10 +28,10 @@ export function useProjectInit() {
           lastModified: Date.now(),
           assets: [],
           tracks: [
-            { id: crypto.randomUUID(), type: 'video', name: 'Video 1', clips: [], muted: false, solo: false, locked: false },
-            { id: crypto.randomUUID(), type: 'video', name: 'Video 2', clips: [], muted: false, solo: false, locked: false },
-            { id: crypto.randomUUID(), type: 'audio', name: 'Audio 1', clips: [], muted: false, solo: false, locked: false },
-            { id: crypto.randomUUID(), type: 'audio', name: 'Audio 2', clips: [], muted: false, solo: false, locked: false },
+            { id: crypto.randomUUID(), type: 'video', name: 'Video 1', clips: [], muted: false, solo: false, locked: false, visible: true },
+            { id: crypto.randomUUID(), type: 'video', name: 'Video 2', clips: [], muted: false, solo: false, locked: false, visible: true },
+            { id: crypto.randomUUID(), type: 'audio', name: 'Audio 1', clips: [], muted: false, solo: false, locked: false, visible: true },
+            { id: crypto.randomUUID(), type: 'audio', name: 'Audio 2', clips: [], muted: false, solo: false, locked: false, visible: true },
           ]
         };
         setProject(defaultProject);
