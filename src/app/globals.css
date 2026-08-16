@@ -1,0 +1,136 @@
+@import "tailwindcss";
+
+@plugin "tailwindcss-animate";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --color-background: var(--background);
+  --color-workspace: var(--workspace);
+  --color-panel: var(--panel);
+  --color-elevated: var(--elevated);
+  --color-foreground: var(--foreground);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  
+  --font-sans: var(--font-sans), system-ui, sans-serif;
+  --font-mono: var(--font-mono), monospace;
+  
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  
+  --color-ring: var(--primary);
+  --color-input: var(--workspace);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  
+  --color-destructive-foreground: #FFFFFF;
+  --color-destructive: var(--error);
+  
+  --color-accent-foreground: var(--primary-foreground);
+  --color-accent: var(--primary);
+  --color-accent-hover: var(--primary-hover);
+  --color-accent-active: var(--primary-active);
+  
+  --color-muted-foreground: var(--text-muted);
+  --color-muted: var(--muted);
+  
+  --color-secondary-foreground: var(--text-secondary);
+  --color-secondary: var(--secondary);
+  
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  
+  --color-popover-foreground: var(--foreground);
+  --color-popover: var(--elevated);
+  
+  --color-card-foreground: var(--foreground);
+  --color-card: var(--panel);
+  
+  --color-selection: var(--selection);
+  --color-hover: var(--hover);
+
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-error: var(--error);
+
+  --radius-sm: calc(var(--radius) - 2px);
+  --radius-md: var(--radius);
+  --radius-lg: calc(var(--radius) + 2px);
+}
+
+:root {
+  --radius: 6px;
+}
+
+.dark {
+  --background: #080B10;
+  --workspace: #0B0F16;
+  --panel: #0F141D;
+  --elevated: #141A24;
+  
+  --foreground: #E5E7EB;
+  --text-primary: #E5E7EB;
+  --text-secondary: #94A3B8;
+  --text-muted: #64748B;
+  
+  --border: #1C2533;
+  --border-strong: #273449;
+  
+  --primary: #3B82F6;
+  --primary-hover: #60A5FA;
+  --primary-active: #2563EB;
+  --primary-foreground: #FFFFFF;
+  
+  --secondary: #141A24;
+  --muted: #111923;
+  
+  --selection: #1C2A42;
+  --hover: #192231;
+
+  --success: #22C55E;
+  --warning: #F59E0B;
+  --error: #EF4444;
+
+  --sidebar: #0F141D;
+  --sidebar-foreground: #E5E7EB;
+  --sidebar-primary: #3B82F6;
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent: #192231;
+  --sidebar-accent-foreground: #E5E7EB;
+  --sidebar-border: #1C2533;
+  --sidebar-ring: #3B82F6;
+}
+
+/* Force full height and hidden overflow */
+html, body {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  font-family: var(--font-sans);
+}
+
+/* Custom Scrollbars */
+.scrollbar-custom::-webkit-scrollbar { width: 6px; height: 6px; }
+.scrollbar-custom::-webkit-scrollbar-track { background: var(--background); }
+.scrollbar-custom::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 10px; }
+.scrollbar-custom::-webkit-scrollbar-thumb:hover { background: #334155; }
+
+.scrollbar-none::-webkit-scrollbar { display: none; }
+.scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}

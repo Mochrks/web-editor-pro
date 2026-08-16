@@ -1,54 +1,26 @@
 [
   {
-    "id": "fa4721ef-b994-4b51-a1db-20985e5f9cdd",
+    "id": "9777d445-de3f-43a5-88fe-0710ef3b0f72",
     "name": "Untitled Project",
     "width": 1920,
     "height": 1080,
     "fps": 30,
     "duration": 60000,
-    "lastModified": 1771325539624,
+    "lastModified": 1786873914757,
     "assets": [],
     "tracks": [
       {
-        "id": "0ad88d87-8d36-4d8e-b362-8aaa0d0b7c35",
+        "id": "c2a2533c-d392-43e6-baa9-edc271f26e37",
         "type": "video",
         "name": "Video 1",
         "clips": [
           {
-            "id": "dd074274-649d-4504-b206-7ebb9ead735f",
-            "assetId": "fc772026-ce11-465d-948c-84262e75d926",
-            "name": "Screen Recording 2025-05-02 at 4.37.34 PM.mov",
-            "type": "video",
-            "start": 74598.2343828125,
-            "duration": 100,
-            "offset": 32866.667,
-            "volume": 1,
-            "properties": {
-              "opacity": 1,
-              "scale": 1.5,
-              "position": {
-                "x": 0,
-                "y": 0
-              },
-              "rotation": 0,
-              "speed": 1
-            },
-            "effects": [
-              {
-                "id": "44c177c0-417d-4690-8231-2a438435005b",
-                "type": "blur",
-                "name": "Gaussian Blur",
-                "value": 0
-              }
-            ]
-          },
-          {
-            "id": "c756627e-1539-4f84-b7f6-4133fa0084fc",
-            "assetId": "000f312a-dea1-4adf-9da9-53a8e67498a2",
+            "id": "31f29923-4227-4380-9e0f-d89d54dfbc39",
+            "assetId": "8d5ab587-78a7-45aa-a9b4-30fe5fc1b649",
             "name": "Mni Jeng Jeng44.mp4",
             "type": "video",
-            "start": 109754.86755371094,
-            "duration": 248896,
+            "start": 575,
+            "duration": 18815,
             "offset": 0,
             "volume": 1,
             "properties": {
@@ -62,60 +34,93 @@
               "speed": 1
             },
             "effects": []
+          },
+          {
+            "id": "c5a6ebd4-ee82-49b1-934a-e1c7da78b309",
+            "assetId": "8d5ab587-78a7-45aa-a9b4-30fe5fc1b649",
+            "name": "Mni Jeng Jeng44.mp4",
+            "type": "video",
+            "start": 19390,
+            "duration": 230081,
+            "offset": 18815,
+            "volume": 1,
+            "properties": {
+              "opacity": 1,
+              "scale": 1.17,
+              "position": {
+                "x": 0,
+                "y": 0
+              },
+              "rotation": -27,
+              "speed": 1
+            },
+            "effects": []
+          },
+          {
+            "id": "acac104f-4f92-44c8-9794-9669d316410d",
+            "assetId": "text-asset",
+            "name": "New Text",
+            "type": "text",
+            "start": 19390,
+            "duration": 3000,
+            "offset": 0,
+            "volume": 1,
+            "text": "EDIT ME",
+            "textStyle": {
+              "fontSize": 80,
+              "color": "#ffffff",
+              "fontFamily": "Inter",
+              "fontWeight": "900",
+              "textAlign": "center",
+              "background": "rgba(0,0,0,0.5)"
+            },
+            "properties": {
+              "position": {
+                "x": 0,
+                "y": 0
+              },
+              "scale": 1,
+              "rotation": 0,
+              "opacity": 1,
+              "speed": 1
+            },
+            "effects": []
           }
         ],
         "muted": false,
         "solo": false,
-        "locked": false
+        "locked": false,
+        "visible": true
       },
       {
-        "id": "55e1fc66-db0c-4c9d-95f7-f4c89fec6c3c",
+        "id": "071f646c-10f3-443e-9acf-de4ad9f42ae0",
         "type": "video",
         "name": "Video 2",
         "clips": [],
         "muted": false,
         "solo": false,
-        "locked": false
+        "locked": false,
+        "visible": true
       },
       {
-        "id": "94bf732a-c1ba-4a28-bcea-5125254c1a29",
+        "id": "3ce3ef48-1995-4a92-9439-68f70f94be37",
         "type": "audio",
         "name": "Audio 1",
-        "clips": [
-          {
-            "id": "cfb47a44-afb2-4097-b5b7-e263771b1fd0",
-            "assetId": "000f312a-dea1-4adf-9da9-53a8e67498a2",
-            "name": "Mni Jeng Jeng44.mp4",
-            "type": "video",
-            "start": 102754.86755371094,
-            "duration": 248896,
-            "offset": 0,
-            "volume": 1,
-            "properties": {
-              "position": {
-                "x": 0,
-                "y": 0
-              },
-              "scale": 1,
-              "rotation": 0,
-              "opacity": 1,
-              "speed": 1
-            },
-            "effects": []
-          }
-        ],
+        "clips": [],
         "muted": false,
-        "solo": false,
-        "locked": false
+        "solo": true,
+        "locked": false,
+        "visible": true
       },
       {
-        "id": "05ae794f-f2d5-4abb-8de5-09a24f589bff",
-        "type": "audio",
-        "name": "Audio 2",
+        "id": "a49be8e1-2d55-44aa-b453-dba12e81ab77",
+        "type": "text",
+        "name": "Text",
         "clips": [],
         "muted": false,
         "solo": false,
-        "locked": false
+        "locked": false,
+        "visible": true
       }
     ]
   }
